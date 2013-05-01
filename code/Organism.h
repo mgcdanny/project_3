@@ -8,9 +8,12 @@ using namespace std;
 * Class defines an organism type
 * Organisms have common names and scientific names
 * The default constructor should set "unknown" for both
-*
 */
-class Organism : public DnaSequence /*try inherting from bass class DnaSequence*/{
+
+/*try inherting from bass class DnaSequence*/
+/*An organism "is a" series of DnaSequences*/
+
+class Organism : public DnaSequence {
 	public:
 		Organism();
 		Organism(string commonName, string scientificName);

@@ -43,8 +43,7 @@ class DnaDatabase {
 		// a given partial sequence within their entire sequence
 		void searchAllOrganismsWithSequence(string partialSequence);
 	private:
-		string record;
-		DnaSequence seqObj;
-		Organism orgObj;
-
+		//'db' is the container (vector) for the records of class Organism//
+		//Organism inherits from the DnaSequenceClass //
+		vector<Organism> db;
 };

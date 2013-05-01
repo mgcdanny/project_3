@@ -28,11 +28,15 @@ int main()
 
 	vector<Organism> vec;
 	Organism cow;
+	Organism tempOrgan;
 	vec.push_back(cow);
-	std::cout << "The size: " << vec.size() <<  " The contents of vec are:";
+	cout << "The size: " << vec.size() <<  " The contents of vec are:";
 	for (vector<Organism>::iterator it = vec.begin(); it != vec.end(); ++it)
-    std::cout << ' ' << *it;
-	std::cout << '\n';
+    tempOrgan = *it;
+	cout << tempOrgan.getSequence() << endl;
+	tempOrgan.setSequence("asdfasdf");
+	cout << tempOrgan.getSequence() << endl;
+/*	
 	vec.erase(std::remove(vec.begin(), vec.end(), cow), vec.end());
 	//vec.push_back(99); //add an element (at the end)
 	std::cout << "The size: " << vec.size() <<  " The contents of vec are:";
@@ -58,5 +62,6 @@ int main()
 	// cout << cow.getScientificName() << endl;
 
 	/* code */
+
 	return 0;
 }
