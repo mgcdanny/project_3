@@ -1,5 +1,6 @@
 #include <string>
 #include <cstdlib>
+#include "DnaSequence.h"
 
 using namespace std;
 
@@ -9,7 +10,7 @@ using namespace std;
 * The default constructor should set "unknown" for both
 *
 */
-class Organism {
+class Organism : public DnaSequence /*try inherting from bass class DnaSequence*/{
 	public:
 		Organism();
 		Organism(string commonName, string scientificName);
@@ -24,9 +25,9 @@ class Organism {
 };
 
 
-Organism::Organism(): commonName("hi"), scientificName("hello") {}
+Organism::Organism(): DnaSequence(), commonName("hi"), scientificName("hello") {}
 
-Organism::Organism(string commonName, string scientificName): commonName(commonName), scientificName(scientificName) {} 
+Organism::Organism(string commonName, string scientificName): DnaSequence(), commonName(commonName), scientificName(scientificName) {} 
 
 
 void Organism::setName(string setCommonName, string setScientificName){
