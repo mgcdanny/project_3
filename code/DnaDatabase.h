@@ -1,7 +1,12 @@
+#ifndef DnaDatabase_H
+#define DnaDatabase_H
 #include <string>
 #include <vector>
-#include "DnaSequence.h"
+#include <algorithm>
+#include <iostream>
+#include <cstdlib>
 #include "Organism.h"
+
 
 using namespace std;
 
@@ -47,3 +52,41 @@ class DnaDatabase {
 		//Organism inherits from the DnaSequenceClass //
 		vector<Organism> db;
 };
+
+
+DnaDatabase::DnaDatabase():db(0) {}
+
+
+void DnaDatabase::addRecord(Organism organism, DnaSequence sequence) {
+    organism.setSequence(sequence.getSequence());            
+    db.push_back(organism);
+}
+
+DnaSequence DnaDatabase::getSequence(Organism organism) {
+    //class Organism inherits from DnaSequence, so technically
+    //the child class is of "equivalent" type as the parent class
+    return organism;
+}
+
+
+int DnaDatabase::countAllOrganisms(){
+    return db.size();
+}
+
+void DnaDatabase::deleteRecord(string organismName) {
+    Organism tester;
+    //cout << tester.getSequence() << endl;
+	for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+        tester = *it;
+        if (tester.getScientificName() == organismName) {
+            db.erase(it);
+            break;             
+        }
+    }
+}
+
+
+#endif /*DnaDatabase_H*/
+
+
+

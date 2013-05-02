@@ -1,3 +1,6 @@
+#ifndef DnaSequence_H
+#define DnaSequence_H
+
 #include <string>
 
 using namespace std;
@@ -68,3 +71,5 @@ string DnaSequence::getSequence() const {
 int DnaSequence::getSize() const {
 	return dna.length();
 }
+
+#endif /* DnaSequence_H */

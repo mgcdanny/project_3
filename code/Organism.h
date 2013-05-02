@@ -1,3 +1,5 @@
+#ifndef Organism_H
+#define Organism_H
 #include <string>
 #include <cstdlib>
 #include "DnaSequence.h"
@@ -28,7 +30,7 @@ class Organism : public DnaSequence {
 };
 
 
-Organism::Organism(): DnaSequence(), commonName("hi"), scientificName("hello") {}
+Organism::Organism(): DnaSequence(), commonName("Bill"), scientificName("William") {}
 
 Organism::Organism(string commonName, string scientificName): DnaSequence(), commonName(commonName), scientificName(scientificName) {} 
 
@@ -54,4 +56,4 @@ string Organism::getScientificName(){
 	return scientificName;
 }
 
-
+#endif /*Organism_H*/
