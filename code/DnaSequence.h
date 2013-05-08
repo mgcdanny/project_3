@@ -36,7 +36,7 @@ class DnaSequence {
 		string dna;
 };
 
-DnaSequence::DnaSequence(): dna("default")  {}
+DnaSequence::DnaSequence(): dna("")  {}
 
 DnaSequence::DnaSequence(const DnaSequence& dnaSequence){
 	string tempDna = dnaSequence.getSequence();
@@ -44,7 +44,6 @@ DnaSequence::DnaSequence(const DnaSequence& dnaSequence){
 }
 
 void DnaSequence::setSequence(string sequence) {
-	
 	dna = sequence;
 }
 
@@ -53,7 +52,6 @@ void DnaSequence::setSequence(const char *sequence) {
 // might need to cast from char to string
 	dna = sequence;
 }
-
 
 void DnaSequence::append(string sequence) {
 	dna += sequence;
@@ -65,7 +63,9 @@ void DnaSequence::append(char nucleotide) {
 }
 
 string DnaSequence::getSequence() const {
-	return dna;
+	string sequence = dna;
+	std::transform(sequence.begin(), sequence.end(),sequence.begin(), ::toupper);
+	return sequence;
 }
 
 int DnaSequence::getSize() const {

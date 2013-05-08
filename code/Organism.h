@@ -30,7 +30,7 @@ class Organism : public DnaSequence {
 };
 
 
-Organism::Organism(): DnaSequence(), commonName("Bill"), scientificName("William") {}
+Organism::Organism(): DnaSequence(), commonName("unknown"), scientificName("unknown") {}
 
 Organism::Organism(string commonName, string scientificName): DnaSequence(), commonName(commonName), scientificName(scientificName) {} 
 

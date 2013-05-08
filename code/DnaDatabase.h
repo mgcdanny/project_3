@@ -27,7 +27,8 @@ class DnaDatabase {
 	public:
 		DnaDatabase();
 		// add record by objects of appropriate class
-		void addRecord(Organism organism, DnaSequence sequence);
+		//NOTE: changed this to pass by refrence
+		void addRecord(Organism& organism, DnaSequence& sequence);
 		// add record by string values
 		void addRecord(string organismName, string sequence);
 		// given an organism, return the sequence
@@ -56,16 +57,90 @@ class DnaDatabase {
 
 DnaDatabase::DnaDatabase():db(0) {}
 
-
-void DnaDatabase::addRecord(Organism organism, DnaSequence sequence) {
-    organism.setSequence(sequence.getSequence());            
-    db.push_back(organism);
+//Note: I changed this to pass-by-refrence
+void DnaDatabase::addRecord(Organism& organism, DnaSequence& sequence) { 
+    Organism tempOrganism;
+    int found = -1;
+    for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+        tempOrganism = *it;
+        found = tempOrganism.getScientificName().find(organism.getScientificName());
+        if (found != -1) {
+            break;             
+        }
+    }
+    if (found != -1) {
+        tempOrganism.append(sequence.getSequence());
+    } else {
+        organism.setSequence(sequence.getSequence());
+        db.push_back(organism);
+    }
 }
+
+
+
+void DnaDatabase::addRecord(string organismName, string sequence) {
+
+    Organism tempOrganism;
+    int found = -1;
+    for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+        tempOrganism = *it;
+        found = tempOrganism.getScientificName().find(organismName);
+        if (found != -1) {
+            break;             
+        }
+    }
+
+    if (found != -1) {
+        tempOrganism.append(sequence);
+    } else {
+
+        Organism newOrganism(organismName,sequence);
+        db.push_back(newOrganism);
+    }
+
+}
+
 
 DnaSequence DnaDatabase::getSequence(Organism organism) {
     //class Organism inherits from DnaSequence, so technically
     //the child class is of "equivalent" type as the parent class
-    return organism;
+	return organism;
+}
+
+
+void DnaDatabase::deleteRecord(Organism organism) {
+    Organism tempOrganism;
+    string organismName = organism.getScientificName();
+    //cout << tempOrganism.getSequence() << endl;
+	for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+        tempOrganism = *it;
+        if (tempOrganism.getScientificName() == organismName) {
+            db.erase(it);
+            break;             
+        }
+    }
+}
+
+
+void DnaDatabase::deleteRecord(string organismName) {
+    Organism tempOrganism;
+    //cout << tempOrganism.getSequence() << endl;
+	for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+        tempOrganism = *it;
+        if (tempOrganism.getScientificName() == organismName) {
+            db.erase(it);
+            break;             
+        }
+    }
+}
+
+
+void DnaDatabase::printAllOrganisms() {
+	Organism tempOrganism;
+	for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+		tempOrganism = *it;
+		cout << tempOrganism.getScientificName() << endl;
+	}
 }
 
 
@@ -73,16 +148,37 @@ int DnaDatabase::countAllOrganisms(){
     return db.size();
 }
 
-void DnaDatabase::deleteRecord(string organismName) {
-    Organism tester;
-    //cout << tester.getSequence() << endl;
+
+int DnaDatabase::countOrganismsWithSequence(string partialSequence){
+    Organism tempOrganism;
+    int found = -1;
+    int counter = 0;
+    string tempSequence;
+    std::transform(partialSequence.begin(), partialSequence.end(),partialSequence.begin(), ::toupper);
 	for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
-        tester = *it;
-        if (tester.getScientificName() == organismName) {
-            db.erase(it);
-            break;             
+        tempOrganism = *it;
+        tempSequence = tempOrganism.getSequence();
+        found = tempSequence.find(partialSequence);
+        if (found != -1) {
+            counter++;             
         }
     }
+    return counter;
+}
+
+
+void DnaDatabase::searchAllOrganismsWithSequence(string partialSequence){
+    Organism tempOrganism;
+    int found = -1;
+    string tempSequence;
+	for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+        tempOrganism = *it;
+        tempSequence = tempOrganism.getSequence();
+        found = tempSequence.find(partialSequence);
+        if (found != -1) {
+            cout << tempOrganism.getScientificName() << endl;             
+        }
+	}
 }
 
 
