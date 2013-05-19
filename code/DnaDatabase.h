@@ -59,52 +59,54 @@ DnaDatabase::DnaDatabase():db(0) {}
 
 //Note: I changed this to pass-by-refrence
 void DnaDatabase::addRecord(Organism& organism, DnaSequence& sequence) { 
-    Organism tempOrganism;
     int found = -1;
     for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
-        tempOrganism = *it;
-        found = tempOrganism.getScientificName().find(organism.getScientificName());
-        if (found != -1) {
+        found = (*it).getScientificName().find(organism.getScientificName());
+        if (found != -1) { /*when found do this:*/
+            /*update the copy of organism stored 'inside' the vector*/
+            (*it).setSequence((*it).getSequence()+sequence.getSequence());
+            /*update the 'original' organism that was copied to the vector ('outside the vector')*/
+            organism.setSequence(organism.getSequence()+sequence.getSequence());
             break;             
         }
-    }
-    if (found != -1) {
-        tempOrganism.append(sequence.getSequence());
-    } else {
+    }   
+    if(found == -1) { /*when not found do this:*/
+        /*set the sequence and copy to vector*/
         organism.setSequence(sequence.getSequence());
         db.push_back(organism);
     }
 }
 
 
-
 void DnaDatabase::addRecord(string organismName, string sequence) {
-
-    Organism tempOrganism;
     int found = -1;
     for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
-        tempOrganism = *it;
-        found = tempOrganism.getScientificName().find(organismName);
+        found = (*it).getScientificName().find(organismName);
         if (found != -1) {
+            /*update the copy of organism stored 'inside' the vector*/
+            (*it).setSequence((*it).getSequence()+sequence);
             break;             
         }
     }
-
-    if (found != -1) {
-        tempOrganism.append(sequence);
-    } else {
-
+    if(found == -1) {
         Organism newOrganism(organismName,sequence);
         db.push_back(newOrganism);
     }
-
 }
 
 
 DnaSequence DnaDatabase::getSequence(Organism organism) {
+    //NO ERROR HANDELING !! INPUT MUST EXIST IN DnaDatabase 
     //class Organism inherits from DnaSequence, so technically
     //the child class is of "equivalent" type as the parent class
-	return organism;
+    int found = -1;
+    for (vector<Organism>::iterator it = db.begin(); it != db.end(); ++it) {
+        found = (*it).getScientificName().find(organism.getScientificName());
+        if (found != -1) {
+            /*update the copy of organism stored 'inside' the vector*/
+            return (*it);             
+        }
+    }
 }
 
 
